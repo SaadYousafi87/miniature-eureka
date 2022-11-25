@@ -24,6 +24,7 @@ const readAndAppend = (content, file) => {
       if (err) {
         console.error(err);
       } else {
+        console.log(data);
         const parsedData = JSON.parse(data);
         parsedData.push(content);
         writeToFile(file, parsedData);
@@ -59,7 +60,15 @@ app.get('/notes', (req, res) => {
 
 // api get route to return data from data file.
 app.get('/api/notes', (req, res) => {
-    res.json(data);
+  fs.readFile('./db/db.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log(data);
+      const parsedData = JSON.parse(data);
+      res.json(parsedData);
+    }
+ });
 });
 
 // api post route to save data into data file.
